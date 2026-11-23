@@ -241,6 +241,21 @@
  },
  {
   "added": "2026-11-23",
+  "citation": "Gallup. (2024). The relationship between engagement at work and organizational outcomes: 2024 Q12 meta-analysis (11th ed.). Gallup, Inc.",
+  "fact": "Business units in the top quarter of employee engagement are 18% more productive in sales than those in the bottom quarter.",
+  "featured": null,
+  "headline": "Engaged teams sell more",
+  "industries": "Sales",
+  "link": "https://www.gallup.com/workplace/321725/gallup-q12-meta-analysis-report.aspx",
+  "source": "Gallup, 2024",
+  "stat": "18%",
+  "stat_label": "higher sales productivity in the most engaged business units",
+  "topics": "Engagement, Teams, Performance",
+  "year": 2024,
+  "id": "engaged-units-sell-more"
+ },
+ {
+  "added": "2026-11-23",
   "citation": "Mehler, M., Balint, E., Gralla, M., Pößnecker, T., Gast, M., Hölzer, M., Kösters, M., & Gündel, H. (2024). Training emotional competencies at the workplace: A systematic review and metaanalysis. BMC Psychology, 12, 718.",
   "fact": "EQ training at work pays off beyond the workshop. Across 50 studies, gains lasted more than three months.",
   "featured": null,
@@ -253,6 +268,21 @@
   "topics": "Training, Development, Workplace",
   "year": 2024,
   "id": "workplace-training"
+ },
+ {
+  "added": "2026-11-23",
+  "citation": "Schmidt, F. L., & Hunter, J. E. (1998). The validity and utility of selection methods in personnel psychology: Practical and theoretical implications of 85 years of research findings. Psychological Bulletin, 124(2), 262–274. Sackett, P. R., Zhang, C., Berry, C. M., & Lievens, F. (2022). Revisiting meta-analytic estimates of validity in personnel selection: Addressing systematic overcorrection for restriction of range. Journal of Applied Psychology, 107(11), 2040–2068.",
+  "fact": "Decades of research put IQ at about 10% to 25% of the differences in how well people do their jobs. The current estimate is closer to 10%, which leaves most of the differences to other factors.",
+  "featured": null,
+  "headline": "IQ only goes so far",
+  "industries": "",
+  "link": "https://doi.org/10.1037/apl0000994",
+  "source": "Schmidt & Hunter, 1998; Sackett et al., 2022",
+  "stat": "10–25%",
+  "stat_label": "of the differences in job performance come down to IQ",
+  "topics": "Performance, Hiring",
+  "year": 2022,
+  "id": "iq-only-goes-so-far"
  },
  {
   "added": "2026-11-23",
@@ -376,6 +406,21 @@
  },
  {
   "added": "2026-11-23",
+  "citation": "Gallup. (2015). State of the American manager: Analytics and advice for leaders. Gallup, Inc.",
+  "fact": "In a Gallup study of 7,272 U.S. adults, one in two had left a job at some point in their career to get away from their manager.",
+  "featured": null,
+  "headline": "People leave managers",
+  "industries": "",
+  "link": "https://www.gallup.com/workplace/236570/employees-leave-managers-not-companies.aspx",
+  "source": "Gallup, 2015",
+  "stat": "50%",
+  "stat_label": "of U.S. adults have left a job to get away from their manager",
+  "topics": "Leadership, Retention",
+  "year": 2015,
+  "id": "leave-the-manager"
+ },
+ {
+  "added": "2026-11-23",
   "citation": "Aviezer, H., Trope, Y., & Todorov, A. (2012). Body cues, not facial expressions, discriminate between intense positive and negative emotions. Science, 338(6111), 1225–1229.",
   "fact": "From faces alone, people couldn't tell whether tennis players had just won or lost a point. With the body in view, it was easy.",
   "featured": null,
@@ -388,6 +433,36 @@
   "topics": "Social Awareness",
   "year": 2012,
   "id": "body-cues"
+ },
+ {
+  "added": "2026-11-23",
+  "citation": "O'Boyle, E. H., Jr., Humphrey, R. H., Pollack, J. M., Hawver, T. H., & Story, P. A. (2011). The relation between emotional intelligence and job performance: A meta-analysis. Journal of Organizational Behavior, 32(5), 788–818.",
+  "fact": "A meta-analysis of emotional intelligence studies found EQ predicts job performance even after accounting for personality and IQ.",
+  "featured": null,
+  "headline": "EQ adds what IQ and personality miss",
+  "industries": "",
+  "link": "https://doi.org/10.1002/job.714",
+  "source": "O'Boyle et al., 2011",
+  "stat": "",
+  "stat_label": "",
+  "topics": "Performance",
+  "year": 2011,
+  "id": "eq-beyond-iq-personality"
+ },
+ {
+  "added": "2026-11-23",
+  "citation": "Martins, A., Ramalho, N., & Morin, E. (2010). A comprehensive meta-analysis of the relationship between emotional intelligence and health. Personality and Individual Differences, 49(6), 554–564. Schutte, N. S., Malouff, J. M., Thorsteinsson, E. B., Bhullar, N., & Rooke, S. E. (2007). A meta-analytic investigation of the relationship between emotional intelligence and health. Personality and Individual Differences, 42(6), 921–933.",
+  "fact": "Two meta-analyses found people with higher emotional intelligence tend to have better mental and physical health.",
+  "featured": null,
+  "headline": "Higher EQ, better health",
+  "industries": "",
+  "link": "https://doi.org/10.1016/j.paid.2010.05.029",
+  "source": "Martins et al., 2010; Schutte et al., 2007",
+  "stat": "",
+  "stat_label": "",
+  "topics": "Wellbeing",
+  "year": 2010,
+  "id": "eq-health"
  },
  {
   "added": "2026-11-23",
@@ -523,5 +598,35 @@
   "topics": "Teams, Emotional contagion, Performance",
   "year": 2002,
   "id": "one-cheerful-member"
+ },
+ {
+  "added": "2026-11-23",
+  "citation": "Goleman, D. (1998). Working with emotional intelligence. Bantam Books.",
+  "fact": "In an analysis of competency models from 121 organizations, two out of three abilities that set top performers apart were emotional competencies.",
+  "featured": null,
+  "headline": "Top performers win on emotional skills",
+  "industries": "",
+  "link": "",
+  "source": "Goleman, 1998",
+  "stat": "2 of 3",
+  "stat_label": "abilities that set top performers apart are emotional competencies",
+  "topics": "Performance",
+  "year": 1998,
+  "id": "two-thirds-competencies"
+ },
+ {
+  "added": "2026-11-23",
+  "citation": "Wilson Learning Worldwide. (n.d.). The impact of manager coaching on learning transfer [Research report].",
+  "fact": "Across nine studies, adding manager coaching to training raised performance results by 23% on average.",
+  "featured": null,
+  "headline": "Manager coaching makes training stick",
+  "industries": "",
+  "link": "https://www.wilsonlearning.com/documents/research/en/RR_Impact_of_Manager_Coaching_on_Learning_Transfer_16.pdf",
+  "source": "Wilson Learning, n.d.",
+  "stat": "23%",
+  "stat_label": "better results when managers coach after training",
+  "topics": "Training, Leadership",
+  "year": null,
+  "id": "manager-coaching-transfer"
  }
 ]
