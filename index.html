@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EQ Research &amp; Insights</title>
+<meta name="description" content="TalentSmartEQ's Emotional Intelligence Appraisal data and third-party research facts.">
+<style>
+:root{--color-fg:#1B2433;--color-fg-muted:#5A6577;--color-bg:#F5F7FA;--color-panel:#FFFFFF;--color-border-line:#DDE3EA;--color-bad:#B3261E;
+  --cds-font-size-caption:13px;--cds-font-weight-medium:600;--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:14px;--cds-gap-lg:22px;
+  --cds-pad-md:14px;--cds-pad-lg:20px;--cds-radius:4px;--cds-chart-grid:#E3E8EE;--cds-text-secondary:#5A6577;
+  --cds-surface-popover:#FFFFFF;--cds-border:#D5DCE4;--cds-shadow-popover:0 4px 14px rgba(0,28,62,.14)}
+@media (prefers-color-scheme:dark){:root{--color-fg:#E6ECF3;--color-fg-muted:#A3AEBD;--color-bg:#0E1622;--color-panel:#162131;--color-border-line:#2A3749;--color-bad:#F2B8B5;
+  --cds-chart-grid:#26334A;--cds-text-secondary:#A3AEBD;--cds-surface-popover:#1C2939;--cds-border:#33425A;--cds-shadow-popover:0 4px 14px rgba(0,0,0,.5)}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg)}
+body{font:15px/1.5 'IBM Plex Sans','Segoe UI',system-ui,sans-serif}
+#dash-root{max-width:1180px;margin:0 auto;padding:24px 16px 48px}
+/* the editor form saves to the Claude dashboard only, so it is hidden on this public copy */
+#dash-root .admin{display:none!important}
+#err{max-width:1180px;margin:0 auto;padding:0 16px;color:var(--color-bad)}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+</head>
+<body>
+<div id="dash-root"><p>Loading…</p></div>
+<p id="err" role="alert"></p>
+<script>
+// A small stand-in for the Claude dashboard runtime, so the same page runs on GitHub Pages
+// with the CSV files in data/.
+const files = {summary: 'data/eia-summary.csv', dist: 'data/eia-distribution.csv', pairs: 'data/retest-pairs.csv', rate: 'data/retest-rate.csv'};
+const store = {}, calcs = {}, draws = {};
+const fail = (what, e) => { document.getElementById('err').textContent = "Part of the page didn't load (" + what + ")."; console.error(what, e); };
+window.dash = {
+  data(id) {
+    if (store[id]) return {status: 'ok', data: store[id]};
+    const c = calcs[id];
+    if (c && c.inputs.every((i) => dash.data(i).status === 'ok')) {
+      store[id] = c.fn(...c.inputs.map((i) => store[i])); return {status: 'ok', data: store[id]};
+    }
+    return {status: 'loading', data: []};
+  },
+  calc(id, spec) { calcs[id] = spec; },
+  draw(name, fn) {
+    if (fn) { draws[name] = fn; return; }
+    document.querySelectorAll(`[data-draw="${name}"]`).forEach((el) => {
+      if (!el.closest('[hidden]')) try { draws[name](el); } catch (e) { fail(name, e); }
+    });
+  },
+  onData() {}, params: () => ({}), setParams() {},
+  setLink(id) { try { history.replaceState(null, '', '#' + id); } catch (e) { /* ignore */ } }
+};
+window.claude = {use: async () => { throw new Error('Editing works only in the Claude dashboard.'); }};
+const drawAll = () => Object.keys(draws).forEach((n) => dash.draw(n));
+let pending = 0;
+const redrawSoon = () => { if (pending) return; pending = requestAnimationFrame(() => { pending = 0; drawAll(); }); };
+(async () => {
+  try {
+    const [html, ...csvs] = await Promise.all([fetch('dashboard/eia-page.html').then((r) => r.text()), ...Object.values(files).map((f) => d3.csv(f))]);
+    Object.keys(files).forEach((id, i) => { store[id] = csvs[i]; });
+    store.research = await fetch('data/research-facts.json').then((r) => r.json());
+    const root = document.getElementById('dash-root');
+    root.innerHTML = html.replace(/<script>[\s\S]*?<\/script>/g, '');
+    for (const m of html.matchAll(/<script>([\s\S]*?)<\/script>/g)) {
+      try { (0, eval)('(function(){' + m[1] + '\n})()'); } catch (e) { fail('script', e); }
+    }
+    drawAll();
+    // redraw after any click or typing, so tabs, chips and search update their charts
+    root.addEventListener('click', () => setTimeout(redrawSoon, 0));
+    root.addEventListener('input', () => setTimeout(redrawSoon, 0));
+    root.addEventListener('change', () => setTimeout(redrawSoon, 0));
+    addEventListener('resize', redrawSoon);
+  } catch (e) { fail('data', e); }
+})();
+</script>
+</body>
+</html>

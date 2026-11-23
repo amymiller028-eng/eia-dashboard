@@ -1,12 +1,15 @@
 # EQ Research & Insights (EIA Dashboard)
 
+Live page: https://amymiller028-eng.github.io/eia-dashboard/
+
 An interactive dashboard of TalentSmartEQ's Emotional Intelligence Appraisal (EIA) data, plus a library of third-party research facts.
 
 ## What's here
 
 | Folder | What it holds |
 |---|---|
-| `dashboard/index.html` | The dashboard page. It runs inside its Claude dashboard (it uses that tool's data and drawing functions), so opening it straight from GitHub won't show the charts. |
+| `index.html` | The public page. It loads the dashboard page and the data files below. |
+| `dashboard/eia-page.html` | The dashboard page itself, the same file the Claude dashboard runs. Editing research facts works only in the Claude dashboard. |
 | `data/eia-summary.csv` | Average EQ, the four skills, and the share scoring low and high, for everyone and by year, gender, age, generation, region, job level, job function, industry, company size, and employment status. Groups under 100 people are left out. |
 | `data/eia-distribution.csv` | Number of people at each EQ score (the bell curve). |
 | `data/retest-rate.csv` | Share of people who retest, by the year they first took the EIA. |
