@@ -1,0 +1,866 @@
+<meta name="dash-one-writer">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+.eia{--head:'Archivo','Helvetica Neue',Arial,sans-serif;--body:'IBM Plex Sans','Segoe UI',system-ui,sans-serif;--navy:#002D61;--deep:#001C3E;--green:#00885F;--bright:#0ACC8B;--sky:#7FA7D6;--ink:var(--color-fg);--soft:var(--color-fg-muted);
+  --on-navy:#FFFFFF;--chip-bg:color-mix(in srgb,var(--navy) 8%,transparent);
+  display:flex;flex-direction:column;gap:var(--cds-gap-lg);font-variant-numeric:tabular-nums;color:var(--ink);font-family:var(--body)}
+@media (prefers-color-scheme:dark){.eia{--navy:#7FA7D6;--deep:#C9D9EE;--green:#2BBF8A;--chip-bg:color-mix(in srgb,#7FA7D6 16%,transparent)}}
+.eia h1{font-family:var(--head);font-weight:800;font-size:clamp(1.7rem,3.4vw,2.4rem);letter-spacing:-.02em;margin:0;color:#fff;text-wrap:balance}
+.eia h2{font-family:var(--head);font-size:clamp(1.15rem,2vw,1.4rem);font-weight:700;letter-spacing:-.01em;margin:0;color:var(--navy);text-wrap:balance}
+.eia p{margin:0;max-width:72ch}
+.eia header#top{background:#002D61;border-radius:4px;padding:clamp(22px,4vw,36px);display:flex;flex-direction:column;gap:10px}
+.eia .lede{font-size:clamp(1rem,1.6vw,1.15rem);line-height:1.5;color:#DCE7F5}
+.eia .lede b{color:#0ACC8B;font-weight:600}
+.eia .muted{color:var(--soft);font-size:var(--cds-font-size-caption)}
+.eia .tabs{display:flex;flex-wrap:wrap;gap:4px 22px;border-bottom:1px solid var(--color-border-line)}
+.eia .tab{font:inherit;font-weight:500;cursor:pointer;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--soft);border-radius:0;padding:10px 2px;margin-bottom:-1px}
+.eia .tab:hover{color:var(--ink)}
+.eia .tab[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy);font-weight:600}
+.eia .tab:focus-visible,.eia .chip:focus-visible,.eia summary:focus-visible{outline:2px solid var(--bright);outline-offset:2px}
+.eia section.pane{display:flex;flex-direction:column;gap:var(--cds-gap-lg)}
+.eia [hidden]{display:none!important}
+.eia .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:var(--cds-gap-md)}
+.eia .tile{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:4px;padding:var(--cds-pad-lg);display:flex;flex-direction:column;gap:var(--cds-gap-xs)}
+.eia .tile .big{font-family:var(--head);font-weight:800;font-size:2.3rem;line-height:1.05;color:var(--navy)}
+.eia .tile.g .big{color:var(--green)}
+.eia .tile .lab{font-size:var(--cds-font-size-caption);color:var(--soft)}
+.eia .card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);display:flex;flex-direction:column;gap:var(--cds-gap-sm);min-width:0}
+.eia .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:var(--cds-gap-md)}
+.eia .controls{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.eia .controls .lbl{font-size:var(--cds-font-size-caption);color:var(--soft);margin-right:4px}
+.eia .chip{font:inherit;font-size:var(--cds-font-size-caption);cursor:pointer;border:1px solid var(--color-border-line);background:transparent;color:var(--ink);border-radius:4px;padding:5px 11px}
+.eia .chip[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:var(--cds-font-weight-medium)}
+@media (prefers-color-scheme:dark){.eia .chip[aria-pressed="true"]{color:#001C3E}}
+.eia .chip .dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:0}
+.eia .chip[aria-pressed="false"] .dot{opacity:.3}
+.eia .chart{position:relative;min-height:200px;width:100%}
+.eia .chart svg{display:block;width:100%;overflow:visible}
+.eia .chart text{fill:var(--cds-text-secondary);font-size:var(--cds-font-size-caption)}
+.eia .chart .val{fill:var(--ink)}
+.eia .chart .gridl{stroke:var(--cds-chart-grid)}
+.eia .tip{position:absolute;pointer-events:none;background:var(--cds-surface-popover);border:1px solid var(--cds-border);box-shadow:var(--cds-shadow-popover);border-radius:var(--cds-radius);padding:6px 9px;font-size:var(--cds-font-size-caption);color:var(--ink);white-space:nowrap;z-index:2}
+.eia .key{display:flex;flex-wrap:wrap;gap:var(--cds-gap-md);font-size:var(--cds-font-size-caption);color:var(--soft)}
+.eia .key i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.eia .tablewrap{overflow-x:auto}
+.eia table{border-collapse:collapse;width:100%}
+.eia th,.eia td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.eia th:first-child,.eia td:first-child{text-align:left;white-space:normal}
+.eia th{font-weight:var(--cds-font-weight-medium);color:var(--soft);font-size:var(--cds-font-size-caption)}
+.eia td.up{color:var(--green);font-weight:var(--cds-font-weight-medium)}
+.eia .facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:var(--cds-gap-md);align-items:start}
+.eia .fact{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:4px;padding:var(--cds-pad-md) var(--cds-pad-lg)}
+.eia .fact summary{cursor:pointer;font-weight:var(--cds-font-weight-medium);color:var(--navy);list-style:none;display:flex;justify-content:space-between;gap:12px}
+.eia .fact summary::-webkit-details-marker{display:none}
+.eia .fact summary::after{content:"+";color:var(--green);font-weight:700}
+.eia .fact[open] summary::after{content:"–"}
+.eia .fact p{margin-top:var(--cds-gap-sm)}
+.eia .fact b{color:var(--green)}
+.eia details.notes summary{cursor:pointer;color:var(--soft)}
+.eia details.notes p{margin-top:var(--cds-gap-sm)}
+
+.eia .search{font:inherit;width:100%;max-width:520px;padding:10px 14px;border:1px solid var(--color-border-line);border-radius:4px;background:var(--color-bg);color:var(--ink)}
+.eia .search:focus-visible{outline:2px solid var(--bright);outline-offset:1px}
+.eia .rlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:18px;align-items:stretch}
+.eia .rcard{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:4px;padding:24px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.eia .rstat{display:flex;flex-direction:column;gap:4px;padding-bottom:14px;border-bottom:1px solid var(--color-border-line)}
+.eia .rstat .num{font-family:var(--head);font-weight:800;font-size:clamp(2.2rem,4vw,2.9rem);line-height:1;letter-spacing:-.02em;color:var(--navy)}
+.eia .rstat .lab{font-size:var(--cds-font-size-caption);color:var(--soft);line-height:1.4}
+.eia .rhead{font-family:var(--head);font-weight:700;font-size:1.2rem;line-height:1.25;color:var(--navy);margin:0;text-wrap:balance}
+.eia .rcard .rfact{font-size:.95rem;line-height:1.55;margin:0;color:var(--ink)}
+.eia .rsrc{font-size:var(--cds-font-size-caption);color:var(--soft);margin:0}
+.eia .rsrc b{color:var(--ink);font-weight:600}
+.eia .rtags{display:flex;flex-wrap:wrap;gap:4px}
+.eia .rtag{font-size:11px;padding:2px 8px;border-radius:2px;background:var(--chip-bg);color:var(--navy)}
+.eia .rtag.ind{background:color-mix(in srgb,var(--bright) 18%,transparent);color:var(--green)}
+.eia .ract{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:auto;padding-top:6px}
+.eia .ract a{font-size:var(--cds-font-size-caption);color:var(--navy);font-weight:600}
+.eia .ract .msg{font-size:var(--cds-font-size-caption);color:var(--green);font-weight:600}
+.eia .rcard details{border-top:1px solid var(--color-border-line);padding-top:8px}
+.eia .rcard details summary{cursor:pointer;font-size:var(--cds-font-size-caption);color:var(--navy);font-weight:600}
+.eia .rcite{font-size:var(--cds-font-size-caption);line-height:1.5;margin-top:6px;user-select:text;overflow-wrap:anywhere}
+.eia .rintro{display:flex;flex-direction:column;gap:12px}
+.eia .rintro p.big{font-size:1.05rem;line-height:1.5;color:var(--ink)}
+.eia .redit{display:none;gap:6px}
+.eia.editing .redit{display:flex}
+.eia .admin{border-top:1px dashed var(--color-border-line);padding-top:var(--cds-gap-md);display:flex;flex-direction:column;gap:var(--cds-gap-sm)}
+.eia .admin label.tog{font-size:var(--cds-font-size-caption);color:var(--soft);display:flex;gap:8px;align-items:center}
+.eia .rform{display:grid;gap:var(--cds-gap-sm);max-width:760px;background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg)}
+.eia .rform label{display:flex;flex-direction:column;gap:4px;font-size:var(--cds-font-size-caption);color:var(--soft)}
+.eia .rform input,.eia .rform textarea{font:inherit;color:var(--ink);background:var(--color-bg);border:1px solid var(--color-border-line);border-radius:8px;padding:8px 10px}
+.eia .rform textarea{min-height:70px;resize:vertical}
+.eia .rform .row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:var(--cds-gap-sm)}
+.eia .btn{font:inherit;font-size:var(--cds-font-size-caption);font-weight:600;cursor:pointer;border-radius:4px;padding:7px 16px;border:1.5px solid #00885F;background:#00885F;color:#fff}
+.eia .btn:hover{background:#007553}
+.eia .btn.ghost{background:transparent;color:var(--navy);border-color:var(--navy)}
+.eia .btn.ghost:hover{background:var(--chip-bg)}
+.eia .btn.danger{border-color:var(--color-bad);background:transparent;color:var(--color-bad)}
+
+</style>
+
+<div class="eia">
+  <header id="top">
+    <h1>EQ Research &amp; Insights</h1>
+    <p class="lede" id="takeaway"><b data-draw="o_people" data-source="summary" data-field="people" data-where="section=overall">—</b> people took the Emotional Intelligence Appraisal from 2021 through September 2026. The average EQ is <b data-draw="o_eq" data-source="summary" data-field="eq" data-where="section=overall">—</b>, and about <b data-draw="o_rate" data-source="rate_avg" data-field="avg_pct" data-row="0">—</b>% come back to retest.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Dashboard sections">
+    <button type="button" class="tab" role="tab" id="tab-overview" aria-controls="overview" aria-selected="true">Our EIA data</button>
+    <button type="button" class="tab" role="tab" id="tab-groups" aria-controls="groups" aria-selected="false">Who takes it</button>
+    <button type="button" class="tab" role="tab" id="tab-skills" aria-controls="skills" aria-selected="false">Skills</button>
+    <button type="button" class="tab" role="tab" id="tab-time" aria-controls="time" aria-selected="false">Over time</button>
+    <button type="button" class="tab" role="tab" id="tab-retests" aria-controls="retests" aria-selected="false">Retests</button>
+    <button type="button" class="tab" role="tab" id="tab-facts" aria-controls="facts" aria-selected="false">Quick facts</button>
+    <button type="button" class="tab" role="tab" id="tab-research" aria-controls="research" aria-selected="false">Third-Party Research Facts</button>
+  </nav>
+
+  <!-- ===== Overview ===== -->
+  <section class="pane" id="overview" role="tabpanel" aria-labelledby="tab-overview">
+    <div class="tiles">
+      <div class="tile"><span class="lab">Assessments, 2021–2026</span><span class="big" data-draw="t_people" data-source="summary" data-field="people" data-where="section=overall">—</span><span class="lab">Self-assessments, all 28 questions answered</span></div>
+      <div class="tile"><span class="lab">Average EQ</span><span class="big" data-draw="t_eq" data-source="summary" data-field="eq" data-where="section=overall">—</span><span class="lab">On a 0–100 scale</span></div>
+      <div class="tile"><span class="lab">Score low</span><span class="big"><span data-draw="t_low" data-source="summary" data-field="pct_low" data-where="section=overall">—</span>%</span><span class="lab">Below 65</span></div>
+      <div class="tile g"><span class="lab">Score high</span><span class="big"><span data-draw="t_high" data-source="summary" data-field="pct_high" data-where="section=overall">—</span>%</span><span class="lab">Above 85</span></div>
+      <div class="tile g"><span class="lab">Retest</span><span class="big"><span data-draw="t_rate" data-source="rate_avg" data-field="avg_pct" data-row="0">—</span>%</span><span class="lab">About 1 in <span data-draw="t_one_in" data-source="rate_avg" data-field="one_in" data-row="0">—</span>, yearly average</span></div>
+      <div class="tile g"><span class="lab">Gain on a retest</span><span class="big">+<span data-draw="t_gain" data-source="rt_summary" data-field="gain_eq" data-row="0">—</span></span><span class="lab">Average EQ points</span></div>
+    </div>
+    <div class="card" id="dist-card">
+      <h2>How scores are spread</h2>
+      <p class="muted">How many people land at each EQ score. The higher the curve, the more people. The dashed line is the average score.</p>
+      <div class="chart" data-draw="dist_chart" data-source="dist" role="img" aria-label="Bell curve of EQ scores, peaking in the mid 70s"></div>
+    </div>
+  </section>
+
+  <!-- ===== Who takes it ===== -->
+  <section class="pane" id="groups" role="tabpanel" aria-labelledby="tab-groups" hidden>
+    <div class="card">
+      <h2>Compare groups</h2>
+      <div class="controls" id="dim-controls"><span class="lbl">Group by</span>
+        <button type="button" class="chip" data-dim="gender" aria-pressed="false">Gender</button>
+        <button type="button" class="chip" data-dim="generation" aria-pressed="false">Generation</button>
+        <button type="button" class="chip" data-dim="age_band" aria-pressed="false">Age</button>
+        <button type="button" class="chip" data-dim="region" aria-pressed="false">Region</button>
+        <button type="button" class="chip" data-dim="job_level" aria-pressed="true">Job level</button>
+        <button type="button" class="chip" data-dim="job_function" aria-pressed="false">Job function</button>
+        <button type="button" class="chip" data-dim="industry" aria-pressed="false">Industry</button>
+        <button type="button" class="chip" data-dim="company_size" aria-pressed="false">Company size</button>
+        <button type="button" class="chip" data-dim="employment" aria-pressed="false">Employment</button>
+      </div>
+      <div class="controls" id="metric-controls"><span class="lbl">Show</span>
+        <button type="button" class="chip" data-metric="eq" aria-pressed="true">Overall EQ</button>
+        <button type="button" class="chip" data-metric="sa" aria-pressed="false">Self-Awareness</button>
+        <button type="button" class="chip" data-metric="sm" aria-pressed="false">Self-Management</button>
+        <button type="button" class="chip" data-metric="so" aria-pressed="false">Social Awareness</button>
+        <button type="button" class="chip" data-metric="rm" aria-pressed="false">Relationship Management</button>
+        <button type="button" class="chip" data-metric="pct_low" aria-pressed="false">% low</button>
+        <button type="button" class="chip" data-metric="pct_high" aria-pressed="false">% high</button>
+      </div>
+      <div class="controls" id="sort-controls"><span class="lbl">Order</span>
+        <button type="button" class="chip" data-sort="natural" aria-pressed="true">As listed</button>
+        <button type="button" class="chip" data-sort="value" aria-pressed="false">Highest first</button>
+      </div>
+      <p class="muted">The dashed line is everyone. Groups under 100 people are left out. Point at a bar for its headcount.</p>
+      <div class="chart" data-draw="group_chart" data-source="summary" role="img" aria-label="Average score by group for the chosen grouping"></div>
+    </div>
+  </section>
+
+  <!-- ===== Skills ===== -->
+  <section class="pane" id="skills" role="tabpanel" aria-labelledby="tab-skills" hidden>
+    <div class="card">
+      <h2>The four skills, group by group</h2>
+      <div class="controls" id="skill-dim-controls"><span class="lbl">Group by</span>
+        <button type="button" class="chip" data-sdim="overall" aria-pressed="false">Everyone</button>
+        <button type="button" class="chip" data-sdim="gender" aria-pressed="true">Gender</button>
+        <button type="button" class="chip" data-sdim="generation" aria-pressed="false">Generation</button>
+        <button type="button" class="chip" data-sdim="job_level" aria-pressed="false">Job level</button>
+        <button type="button" class="chip" data-sdim="region" aria-pressed="false">Region</button>
+      </div>
+      <div class="controls" id="skill-toggles"><span class="lbl">Skills</span>
+        <button type="button" class="chip" data-skill="sa" aria-pressed="true"><span class="dot" style="background:var(--navy)"></span>Self-Awareness</button>
+        <button type="button" class="chip" data-skill="sm" aria-pressed="true"><span class="dot" style="background:var(--green)"></span>Self-Management</button>
+        <button type="button" class="chip" data-skill="so" aria-pressed="true"><span class="dot" style="background:var(--bright)"></span>Social Awareness</button>
+        <button type="button" class="chip" data-skill="rm" aria-pressed="true"><span class="dot" style="background:var(--sky)"></span>Relationship Management</button>
+      </div>
+      <p class="muted">Each row is a group, each dot a skill average. Tap a skill to hide or show it.</p>
+      <div class="chart" data-draw="skill_chart" data-source="summary" role="img" aria-label="Average skill scores for each group"></div>
+    </div>
+  </section>
+
+  <!-- ===== Over time ===== -->
+  <section class="pane" id="time" role="tabpanel" aria-labelledby="tab-time" hidden>
+    <div class="card">
+      <h2>Year by year</h2>
+      <div class="controls" id="time-toggles"><span class="lbl">Show</span>
+        <button type="button" class="chip" data-series="pct_low" aria-pressed="true"><span class="dot" style="background:var(--navy)"></span>% low (below 65)</button>
+        <button type="button" class="chip" data-series="pct_high" aria-pressed="true"><span class="dot" style="background:var(--bright)"></span>% high (above 85)</button>
+      </div>
+      <div class="chart" data-draw="time_chart" data-source="summary" role="img" aria-label="Share of people scoring low and high each year"></div>
+    </div>
+    <div class="card">
+      <h2>Each year at a glance</h2>
+      <div class="tablewrap">
+        <table data-source="years" data-row-key="group">
+          <thead><tr><th data-field="group">Year</th><th data-field="people">People</th><th data-field="eq">Average EQ</th><th data-field="sa">Self-Awareness</th><th data-field="sm">Self-Management</th><th data-field="so">Social Awareness</th><th data-field="rm">Relationship Management</th><th data-field="pct_low">% low</th><th data-field="pct_high">% high</th></tr></thead>
+          <tbody data-draw="year_rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Retests ===== -->
+  <section class="pane" id="retests" role="tabpanel" aria-labelledby="tab-retests" hidden>
+    <p>About <b data-draw="r_rate" data-source="rate_avg" data-field="avg_pct" data-row="0">—</b>% of people retest. Half do it within <b data-draw="r_days" data-source="rt_summary" data-field="median_days" data-row="0">—</b> days, and they score <b data-draw="r_gain" data-source="rt_summary" data-field="gain_eq" data-row="0">—</b> points higher on average. <b data-draw="r_higher" data-source="rt_summary" data-field="pct_higher" data-row="0">—</b>% score higher, <b data-draw="r_same" data-source="rt_summary" data-field="pct_same" data-row="0">—</b>% the same, and <b data-draw="r_lower" data-source="rt_summary" data-field="pct_lower" data-row="0">—</b>% lower.</p>
+    <div class="grid2">
+      <div class="card">
+        <h2>Every skill goes up</h2>
+        <div class="key"><span><i style="background:var(--sky)"></i>First assessment</span><span><i style="background:var(--green)"></i>Retest</span></div>
+        <div class="chart" data-draw="rt_skills_chart" data-source="rt_skills" role="img" aria-label="Average first and retest scores for overall EQ and the four skills"></div>
+      </div>
+      <div class="card">
+        <h2>When people retest</h2>
+        <p class="muted"><b data-draw="r_57" data-source="rt_summary" data-field="pct_5to7" data-row="0">—</b>% retest five to seven months after their first, and <b data-draw="r_year" data-source="rt_summary" data-field="pct_within_year" data-row="0">—</b>% within a year. Percent of people by months between.</p>
+        <div class="chart" data-draw="rt_timing_chart" data-source="rt_timing" role="img" aria-label="Percent of people by months between first assessment and retest"></div>
+      </div>
+      <div class="card">
+        <h2>Retest rate by year</h2>
+        <p class="muted">Of the people who first took it each year, the share who retested. 2026 is partial.</p>
+        <div class="chart" data-draw="rt_rate_chart" data-source="rate" role="img" aria-label="Retest rate by year of the first assessment"></div>
+      </div>
+      <div class="card">
+        <h2>Lower starting scores gain the most</h2>
+        <p class="muted">Average EQ gain by first score. Part of this is regression to the mean: an unusually low or high first score tends to land closer to average next time.</p>
+        <div class="chart" data-draw="rt_start_chart" data-source="rt_by_start" role="img" aria-label="Average EQ gain by starting score band"></div>
+      </div>
+      <div class="card">
+        <h2>Behaviors people move past</h2>
+        <p class="muted"><b data-draw="r_moved" data-source="rt_summary" data-field="pct_moved" data-row="0">—</b>% move past at least one of the three behaviors on their report. Share moved past, by skill.</p>
+        <div class="chart" data-draw="rt_beh_chart" data-source="rt_behaviors" role="img" aria-label="Share of development behaviors moved past by the retest, by skill"></div>
+      </div>
+      <div class="card">
+        <h2>Gains by time between</h2>
+        <div class="chart" data-draw="rt_gap_chart" data-source="rt_by_gap" role="img" aria-label="Average EQ gain by time between assessments"></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Retest gains by industry</h2>
+      <p class="muted">Industries with at least 300 people who retested. Adjusted gain is the gain if the industry had started at the overall average, so industries that start low don't look better just for that.</p>
+      <div class="tablewrap">
+        <table data-source="rt_by_industry" data-row-key="industry">
+          <thead><tr><th data-field="industry">Industry</th><th data-field="people">People</th><th data-field="first">First EQ</th><th data-field="retest">Retest EQ</th><th data-field="gain">Gain</th><th data-field="adj_gain">Adjusted gain</th><th data-field="pct_higher">Score higher</th></tr></thead>
+          <tbody data-draw="rt_ind_rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Quick facts ===== -->
+  <section class="pane" id="facts" role="tabpanel" aria-labelledby="tab-facts" hidden>
+    <p class="muted">Tap a question to see the answer.</p>
+    <div class="facts">
+      <details class="fact"><summary>Do women or men score higher?</summary><p>Overall, about the same: women <b data-draw="f_women" data-source="facts" data-field="women_eq" data-row="0">—</b>, men <b data-draw="f_men" data-source="facts" data-field="men_eq" data-row="0">—</b>. Women rate themselves <b data-draw="f_so_gap" data-source="facts" data-field="so_gap" data-row="0">—</b> points higher in Social Awareness, and men <b data-draw="f_sm_gap" data-source="facts" data-field="sm_gap" data-row="0">—</b> points higher in Self-Management.</p></details>
+      <details class="fact"><summary>Which job level scores highest?</summary><p><b data-draw="f_top_level">—</b>, at <b data-draw="f_top_level_eq" data-source="facts" data-field="top_level_eq" data-row="0">—</b>. CEOs average <b data-draw="f_ceo" data-source="facts" data-field="ceo_eq" data-row="0">—</b>, below every level from manager up.</p></details>
+      <details class="fact"><summary>Which industry scores highest?</summary><p><b data-draw="f_top_ind">—</b>, at <b data-draw="f_top_ind_eq" data-source="facts" data-field="top_ind_eq" data-row="0">—</b>. The lowest is <b data-draw="f_low_ind">—</b>, at <b data-draw="f_low_ind_eq" data-source="facts" data-field="low_ind_eq" data-row="0">—</b>.</p></details>
+      <details class="fact"><summary>Which job function scores highest?</summary><p><b data-draw="f_top_func">—</b>, at <b data-draw="f_top_func_eq" data-source="facts" data-field="top_func_eq" data-row="0">—</b>. Sales averages <b data-draw="f_sales" data-source="facts" data-field="sales_eq" data-row="0">—</b>.</p></details>
+      <details class="fact"><summary>Does company size matter?</summary><p>People at the biggest companies (50,000+) average <b data-draw="f_big" data-source="facts" data-field="big_eq" data-row="0">—</b>, and people working on their own average <b data-draw="f_solo" data-source="facts" data-field="solo_eq" data-row="0">—</b>.</p></details>
+      <details class="fact"><summary>Which skill is strongest overall?</summary><p><b data-draw="f_top_skill">—</b>, at <b data-draw="f_top_skill_eq" data-source="facts" data-field="top_skill_eq" data-row="0">—</b>. The lowest is <b data-draw="f_low_skill">—</b>, at <b data-draw="f_low_skill_eq" data-source="facts" data-field="low_skill_eq" data-row="0">—</b>.</p></details>
+      <details class="fact"><summary>Which generation scores highest?</summary><p><b data-draw="f_top_gen">—</b>, at <b data-draw="f_top_gen_eq" data-source="facts" data-field="top_gen_eq" data-row="0">—</b>, but the generations are less than <b data-draw="f_gen_spread" data-source="facts" data-field="gen_spread_ceil" data-row="0">—</b> points apart.</p></details>
+      <details class="fact"><summary>Which region scores highest?</summary><p><b data-draw="f_top_reg">—</b>, at <b data-draw="f_top_reg_eq" data-source="facts" data-field="top_reg_eq" data-row="0">—</b>. The lowest is <b data-draw="f_low_reg">—</b>, at <b data-draw="f_low_reg_eq" data-source="facts" data-field="low_reg_eq" data-row="0">—</b>. Regions are what test-takers choose, and ratings may reflect culture as well as skill.</p></details>
+      <details class="fact"><summary>How much does a retest move scores?</summary><p>On average <b data-draw="f_rt_gain" data-source="rt_summary" data-field="gain_eq" data-row="0">—</b> points, and <b data-draw="f_rt_higher" data-source="rt_summary" data-field="pct_higher" data-row="0">—</b>% score higher. People who started below 65 gain <b data-draw="f_rt_low" data-source="rt_by_start" data-field="gain" data-where="band=Below 65">—</b>.</p></details>
+    </div>
+  </section>
+
+  <!-- ===== Research ===== -->
+  <section class="pane" id="research" role="tabpanel" aria-labelledby="tab-research" hidden>
+    <div class="rintro">
+      <h2>Third-Party Research Facts</h2>
+      <p class="big">Published studies from outside TalentSmartEQ. The other tabs are our own EIA data. Grab-and-go findings on why emotional intelligence matters at work. Copy a fact for a deck, an email, or a post. Every card links to its full citation if anyone wants to read more.</p>
+      <input type="search" class="search" id="r-search" placeholder="Search: leadership, training, healthcare, stress…" aria-label="Search the research">
+      <div class="controls" data-draw="r_topics" aria-label="Topics"></div>
+      <p class="muted" data-draw="r_count">—</p>
+    </div>
+    <div class="rlist" data-draw="r_list" data-source="research"></div>
+    <div class="admin" id="r-admin">
+      <label class="tog"><input type="checkbox" id="r-editmode"> Edit research (dashboard editors only)</label>
+      <form class="rform" id="r-form" hidden>
+        <h2 id="r-form-title">Add a research fact</h2>
+        <label for="r-headline">Headline, a short marketing message<input id="r-headline" name="headline" placeholder="People stay for high-EQ leaders"></label>
+        <div class="row2">
+          <label for="r-stat">Big number (optional)<input id="r-stat" name="stat" placeholder="69%"></label>
+          <label for="r-statlabel">What the number means<input id="r-statlabel" name="stat_label" placeholder="plan to stay 5+ years with a high-EQ leader"></label>
+        </div>
+        <label for="r-fact">The fact, in plain language<textarea id="r-fact" name="fact" required placeholder="One or two sentences a client would remember."></textarea></label>
+        <label for="r-source">Short source for the card<input id="r-source" name="source" placeholder="Korn Ferry, 2018"></label>
+        <label for="r-citation">Full citation (APA)<textarea id="r-citation" name="citation" required placeholder="Author, A. A., &amp; Author, B. B. (Year). Title. Journal, volume(issue), pages."></textarea></label>
+        <div class="row2">
+          <label for="r-link">Link (DOI or web address)<input id="r-link" name="link" type="url" placeholder="https://doi.org/…"></label>
+          <label for="r-year">Year<input id="r-year" name="year" type="number" min="1900" max="2100"></label>
+        </div>
+        <div class="row2">
+          <label for="r-topics">Topics, separated by commas<input id="r-topics" name="topics" placeholder="Leadership, Training"></label>
+          <label for="r-industries">Industries, separated by commas<input id="r-industries" name="industries" placeholder="Healthcare, Military, Sales"></label>
+        </div>
+        <div class="ract">
+          <button type="submit" class="btn">Save fact</button>
+          <button type="button" class="btn ghost" id="r-cancel">Cancel</button>
+          <span class="msg" data-draw="r_msg" aria-live="polite"></span>
+        </div>
+      </form>
+      <button type="button" class="btn ghost" id="r-add" hidden>+ Add a research fact</button>
+    </div>
+  </section>
+
+  <details class="notes" id="notes">
+    <summary>Where these numbers come from</summary>
+    <p>Source: the EQ Trends raw data file (Emotional Intelligence Appraisal, from the October 26, 2026 data snapshot). Everything outside Retests uses self-assessments from 2021 through September 2026 with all 28 questions answered, the same group as the EQ trends research pages. Scores are self-ratings on a 0–100 scale; low is below 65 and high is above 85.</p>
+    <p>Third-Party Research Facts are written by the dashboard's editors from published studies; each card carries its full citation.</p>
+    <p>Retests compare each person's first self-assessment with their first retest (2021–2026) at least 30 days later; the retest rate counts every retest for people who first took it in 2021–2025. Generation is estimated from the age band and the year of the assessment.</p>
+  </details>
+</div>
+
+<script>
+// ---- shared helpers and state ----
+window.eNum = (v) => (v === '' || v == null ? NaN : +v);
+window.eR1 = (v) => Math.round(v * 10) / 10;
+window.eMean = (a) => a.reduce((s, x) => s + x, 0) / a.length;
+window.eFmt = d3.format(',');
+window.eState = {dim: 'job_level', metric: 'eq', sort: 'natural', sdim: 'gender', skills: {sa: true, sm: true, so: true, rm: true}, series: {pct_low: true, pct_high: true}};
+window.eSkillColor = {sa: 'var(--navy)', sm: 'var(--green)', so: 'var(--bright)', rm: 'var(--sky)'};
+window.eSkillName = {eq: 'Overall EQ', sa: 'Self-Awareness', sm: 'Self-Management', so: 'Social Awareness', rm: 'Relationship Management', pct_low: '% low (below 65)', pct_high: '% high (above 85)'};
+window.eRows = (rows, section) => rows.filter((r) => r.section === section).sort((a, b) => eNum(a.order) - eNum(b.order));
+
+dash.calc('years', {
+  inputs: ['summary'], title: 'Each year', description: 'The yearly rows of the summary.',
+  fn: (summary) => eRows(summary, 'year').map((r) => ({group: r.group, people: eNum(r.people), eq: eNum(r.eq), sa: eNum(r.sa), sm: eNum(r.sm), so: eNum(r.so), rm: eNum(r.rm), pct_low: eNum(r.pct_low), pct_high: eNum(r.pct_high)}))
+});
+
+dash.calc('facts', {
+  inputs: ['summary'], title: 'Quick facts', description: 'Highest and lowest groups and gaps picked from the summary.',
+  fn: (summary) => {
+    const sec = (s) => eRows(summary, s);
+    const hi = (rows) => rows.reduce((a, b) => (eNum(b.eq) > eNum(a.eq) ? b : a));
+    const lo = (rows) => rows.reduce((a, b) => (eNum(b.eq) < eNum(a.eq) ? b : a));
+    const byName = (s, g) => sec(s).find((r) => r.group === g) || {};
+    const all = sec('overall')[0];
+    const skills = ['sa', 'sm', 'so', 'rm'].map((k) => ({k, v: eNum(all[k])}));
+    const topS = skills.reduce((a, b) => (b.v > a.v ? b : a)), lowS = skills.reduce((a, b) => (b.v < a.v ? b : a));
+    const regions = sec('region').filter((r) => eNum(r.people) >= 1000), gens = sec('generation');
+    const w = byName('gender', 'Women'), m = byName('gender', 'Men');
+    return [{
+      women_eq: eNum(w.eq), men_eq: eNum(m.eq), so_gap: eR1(eNum(w.so) - eNum(m.so)), sm_gap: eR1(eNum(m.sm) - eNum(w.sm)),
+      top_level: hi(sec('job_level')).group, top_level_eq: eNum(hi(sec('job_level')).eq), ceo_eq: eNum(byName('job_level', 'CEO').eq),
+      top_ind: hi(sec('industry')).group, top_ind_eq: eNum(hi(sec('industry')).eq), low_ind: lo(sec('industry')).group, low_ind_eq: eNum(lo(sec('industry')).eq),
+      top_func: hi(sec('job_function')).group, top_func_eq: eNum(hi(sec('job_function')).eq), sales_eq: eNum(byName('job_function', 'Sales').eq),
+      big_eq: eNum(byName('company_size', '50,000+').eq), solo_eq: eNum(byName('company_size', '1 employee').eq),
+      top_skill: eSkillName[topS.k], top_skill_eq: topS.v, low_skill: eSkillName[lowS.k], low_skill_eq: lowS.v,
+      top_gen: hi(gens).group, top_gen_eq: eNum(hi(gens).eq), gen_spread_ceil: Math.ceil(eNum(hi(gens).eq) - eNum(lo(gens).eq)),
+      top_reg: hi(regions).group, top_reg_eq: eNum(hi(regions).eq), low_reg: lo(regions).group, low_reg_eq: eNum(lo(regions).eq)
+    }];
+  }
+});
+
+// ---- retests ----
+dash.calc('rt_summary', {
+  inputs: ['pairs'], title: 'Retest summary',
+  description: 'Headline numbers for everyone who retested at least 30 days after their first assessment.',
+  fn: (pairs) => {
+    const n = pairs.length, g = pairs.map((r) => eNum(r.retest_eq) - eNum(r.first_eq));
+    const days = pairs.map((r) => eNum(r.days_apart)).sort((a, b) => a - b);
+    const withBeh = pairs.filter((r) => eNum(r.behaviors) > 0);
+    return [{
+      people: n, gain_eq: eR1(eMean(g)),
+      pct_higher: Math.round(g.filter((x) => x > 0).length / n * 100), pct_same: Math.round(g.filter((x) => x === 0).length / n * 100),
+      pct_lower: Math.round(g.filter((x) => x < 0).length / n * 100), median_days: d3.median(days),
+      pct_5to7: Math.round(days.filter((d) => d >= 152.2 && d <= 213.1).length / n * 100),
+      pct_within_year: Math.round(days.filter((d) => d <= 365).length / n * 100),
+      pct_moved: Math.round(withBeh.filter((r) => eNum(r.behaviors_moved) > 0).length / withBeh.length * 100)
+    }];
+  }
+});
+
+dash.calc('rate_avg', {
+  inputs: ['rate'], title: 'Average retest rate',
+  description: 'Average of the yearly retest rates for people who first took the assessment in 2021–2025 (2026 left out as a partial year).',
+  fn: (rate) => {
+    const avg = eMean(rate.filter((r) => r.complete_year === 'yes').map((r) => eNum(r.pct_retested)));
+    return [{avg_pct: eR1(avg), one_in: Math.round(100 / avg)}];
+  }
+});
+
+dash.calc('rt_skills', {
+  inputs: ['pairs'], title: 'Retest scores by skill',
+  description: 'Average first and retest score for overall EQ and each skill; the gain adds up from the scores shown.',
+  fn: (pairs) => [['eq', 'Overall EQ'], ['sa', 'Self-Awareness'], ['sm', 'Self-Management'], ['so', 'Social Awareness'], ['rm', 'Relationship Management']].map(([k, name]) => {
+    const f = eR1(eMean(pairs.map((r) => eNum(r['first_' + k])))), t = eR1(eMean(pairs.map((r) => eNum(r['retest_' + k]))));
+    return {skill: name, first: f, retest: t, gain: eR1(t - f)};
+  })
+});
+
+dash.calc('rt_timing', {
+  inputs: ['pairs'], title: 'Months between',
+  description: 'Percent of people by whole months between first assessment and retest (days ÷ 30.44; the shortest gap, 30 days, counts as 1), with 24 months or more grouped.',
+  fn: (pairs) => {
+    const n = pairs.length, c = new Array(25).fill(0);
+    pairs.forEach((r) => { c[Math.min(24, Math.max(1, Math.floor(eNum(r.days_apart) / 30.44)))] += 1; });   // 30 days counts as month 1
+    return c.slice(1).map((k, i) => ({months: i + 1 === 24 ? '24+' : String(i + 1), pct: Math.round(k / n * 1000) / 10}));
+  }
+});
+
+window.eBands = (rows, keyOf, order) => {
+  const groups = d3.group(rows, keyOf);
+  return order.filter((b) => groups.has(b)).map((b) => {
+    const g = groups.get(b), d = g.map((r) => eNum(r.retest_eq) - eNum(r.first_eq));
+    return {band: b, people: g.length, gain: eR1(eMean(d)), pct_higher: Math.round(d.filter((x) => x > 0).length / g.length * 100)};
+  });
+};
+dash.calc('rt_by_start', {
+  inputs: ['pairs'], title: 'Retest gain by starting score', description: 'Average EQ gain by first-assessment score band.',
+  fn: (pairs) => eBands(pairs, (r) => { const s = eNum(r.first_eq); return s < 65 ? 'Below 65' : s < 70 ? '65–69' : s < 75 ? '70–74' : s < 80 ? '75–79' : s < 85 ? '80–84' : '85 or higher'; },
+    ['Below 65', '65–69', '70–74', '75–79', '80–84', '85 or higher'])
+});
+dash.calc('rt_by_gap', {
+  inputs: ['pairs'], title: 'Retest gain by time between', description: 'Average EQ gain by days between first assessment and retest.',
+  fn: (pairs) => eBands(pairs, (r) => { const d = eNum(r.days_apart); return d < 91 ? '1–3 months' : d < 152 ? '3–5 months' : d <= 213 ? '5–7 months' : d <= 365 ? '7–12 months' : d <= 730 ? '1–2 years' : 'Over 2 years'; },
+    ['1–3 months', '3–5 months', '5–7 months', '7–12 months', '1–2 years', 'Over 2 years'])
+});
+
+dash.calc('rt_by_industry', {
+  inputs: ['pairs'], title: 'Retest gains by industry',
+  description: 'Industries with at least 300 people who retested, from the industry on the first assessment. Adjusted gain removes the part of the gain explained by the starting score.',
+  fn: (pairs) => {
+    const first = pairs.map((r) => eNum(r.first_eq)), gain = pairs.map((r) => eNum(r.retest_eq) - eNum(r.first_eq));
+    const mf = eMean(first), mg = eMean(gain);
+    const b = d3.sum(first, (f, i) => (f - mf) * (gain[i] - mg)) / d3.sum(first, (f) => (f - mf) ** 2);
+    return [...d3.group(pairs.filter((r) => r.industry), (r) => r.industry)].filter(([, g]) => g.length >= 300).map(([k, g]) => {
+      const f = eMean(g.map((r) => eNum(r.first_eq))), t = eMean(g.map((r) => eNum(r.retest_eq)));
+      const d = g.map((r) => eNum(r.retest_eq) - eNum(r.first_eq));
+      return {industry: k, people: g.length, first: eR1(f), retest: eR1(t), gain: eR1(eR1(t) - eR1(f)), adj_gain: eR1((t - f) - b * (f - mf)),
+              pct_higher: Math.round(d.filter((x) => x > 0).length / g.length * 100)};
+    }).sort((a, z) => z.adj_gain - a.adj_gain);
+  }
+});
+
+dash.calc('rt_behaviors', {
+  inputs: ['pairs'], title: 'Behaviors moved past by skill',
+  description: 'Of the development behaviors named on first reports, the percent no longer on the list at the retest, by skill.',
+  fn: (pairs) => [['sa', 'Self-Awareness'], ['sm', 'Self-Management'], ['so', 'Social Awareness'], ['rm', 'Relationship Management']].map(([k, name]) => {
+    const tot = d3.sum(pairs, (r) => eNum(r[k + '_behaviors'])), mv = d3.sum(pairs, (r) => eNum(r[k + '_moved']));
+    return {skill: name, pct_moved: Math.round(mv / tot * 100)};
+  }).sort((a, b) => b.pct_moved - a.pct_moved)
+});
+</script>
+
+<script>
+// ---- tabs and chips: listeners only; they set aria/hidden and rerun drawings ----
+const tabs = [...document.querySelectorAll('.eia .tab')];
+const openTab = (tab) => {
+  tabs.forEach((t) => {
+    const on = t === tab; t.setAttribute('aria-selected', String(on));
+    const pane = document.getElementById(t.getAttribute('aria-controls')); if (pane) pane.hidden = !on;
+  });
+  dash.setLink(tab.getAttribute('aria-controls'));
+};
+tabs.forEach((t) => t.addEventListener('click', () => openTab(t)));
+const start = tabs.find((t) => '#' + t.getAttribute('aria-controls') === location.hash);
+if (start) openTab(start);
+
+const single = (sel, attr, key, draw) => {
+  const chips = [...document.querySelectorAll(sel)];
+  chips.forEach((c) => c.addEventListener('click', () => {
+    chips.forEach((x) => x.setAttribute('aria-pressed', String(x === c)));
+    eState[key] = c.getAttribute(attr); dash.draw(draw);
+  }));
+};
+single('#dim-controls .chip', 'data-dim', 'dim', 'group_chart');
+single('#metric-controls .chip', 'data-metric', 'metric', 'group_chart');
+single('#sort-controls .chip', 'data-sort', 'sort', 'group_chart');
+single('#skill-dim-controls .chip', 'data-sdim', 'sdim', 'skill_chart');
+const toggle = (sel, attr, key, draw) => {
+  document.querySelectorAll(sel).forEach((c) => c.addEventListener('click', () => {
+    const k = c.getAttribute(attr), on = c.getAttribute('aria-pressed') !== 'true';
+    const others = Object.values(eState[key]).filter(Boolean).length;
+    if (!on && others <= 1) return;                        // keep at least one showing
+    c.setAttribute('aria-pressed', String(on)); eState[key][k] = on; dash.draw(draw);
+  }));
+};
+toggle('#skill-toggles .chip', 'data-skill', 'skills', 'skill_chart');
+toggle('#time-toggles .chip', 'data-series', 'series', 'time_chart');
+</script>
+
+<script>
+// ---- research: search box, edit mode and the form (listeners only; the cards are a drawing) ----
+window.rState = {q: '', topic: '', editing: null, msg: ''};
+window.rSay = (m) => { rState.msg = m; dash.draw('r_msg'); };
+const RPATH = 'data/research/facts';
+const rEl = (id) => document.getElementById(id);
+const rForm = rEl('r-form');
+if (rEl('r-search')) rEl('r-search').addEventListener('input', (e) => { rState.q = e.target.value.trim().toLowerCase(); dash.draw('r_list'); dash.draw('r_count'); });
+const rRoot = document.querySelector('.eia');
+if (rEl('r-editmode')) rEl('r-editmode').addEventListener('change', (e) => {
+  rRoot.classList.toggle('editing', e.target.checked);
+  rEl('r-add').hidden = !e.target.checked;
+  if (!e.target.checked) rForm.hidden = true;
+});
+window.rOpenForm = (row) => {
+  rState.editing = row ? row.id : null;
+  rEl('r-form-title').hidden = false;
+  rEl('r-fact').value = row ? row.fact || '' : '';
+  rEl('r-headline').value = row ? row.headline || '' : '';
+  rEl('r-stat').value = row ? row.stat || '' : '';
+  rEl('r-statlabel').value = row ? row.stat_label || '' : '';
+  rEl('r-source').value = row ? row.source || '' : '';
+  rEl('r-citation').value = row ? row.citation || '' : '';
+  rEl('r-link').value = row ? row.link || '' : '';
+  rEl('r-year').value = row && row.year ? row.year : '';
+  rEl('r-topics').value = row ? row.topics || '' : '';
+  rEl('r-industries').value = row ? row.industries || '' : '';
+  rSay('');
+  rForm.hidden = false; rEl('r-add').hidden = true;
+  rEl('r-fact').focus();
+};
+if (rEl('r-add')) rEl('r-add').addEventListener('click', () => rOpenForm(null));
+if (rEl('r-cancel')) rEl('r-cancel').addEventListener('click', () => { rForm.hidden = true; rEl('r-add').hidden = false; });
+if (rForm) rForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const tidy = (s) => s.split(',').map((x) => x.trim()).filter(Boolean).join(', ');
+  const row = {fact: rEl('r-fact').value.trim(), citation: rEl('r-citation').value.trim(), link: rEl('r-link').value.trim(),
+               headline: rEl('r-headline').value.trim(), stat: rEl('r-stat').value.trim(), stat_label: rEl('r-statlabel').value.trim(), source: rEl('r-source').value.trim(),
+               year: Number(rEl('r-year').value) || null, topics: tidy(rEl('r-topics').value), industries: tidy(rEl('r-industries').value),
+               added: new Date().toISOString().slice(0, 10)};
+  if (!row.fact || !row.citation) { rSay('Add the fact and the citation.'); return; }
+  if (row.link && !/^https?:\/\//.test(row.link)) { rSay('The link needs to start with https://'); return; }
+  rSay('Saving…');
+  try {
+    const db = await claude.use('db');
+    if (rState.editing) await db.doc(RPATH + '/' + rState.editing).set(row);
+    else await db.collection(RPATH).add(row);
+    rSay('Saved. It shows for everyone now.');
+    rForm.hidden = true; rEl('r-add').hidden = false; rState.editing = null;
+  } catch (err) {
+    rSay("That wasn't saved. Only dashboard editors can add or change research.");
+  }
+});
+window.rDelete = async (id, btn) => {
+  if (btn.dataset.armed !== 'yes') { btn.dataset.armed = 'yes'; btn.textContent = 'Click again to delete'; return; }
+  try { const db = await claude.use('db'); await db.doc(RPATH + '/' + id).delete(); }
+  catch (err) { btn.textContent = "Couldn't delete (editors only)"; }
+};
+</script>
+
+<script>
+// ---- research cards, topic chips and count (drawings) ----
+const rSplit = (s) => String(s || '').split(',').map((x) => x.trim()).filter(Boolean);
+const rRows = () => { const d = dash.data('research'); return d.status === 'ok' ? d.data : null; };
+const rMatch = (r) => {
+  const hay = [r.headline, r.stat, r.stat_label, r.fact, r.source, r.citation, r.topics, r.industries, r.year].join(' ').toLowerCase();
+  const words = rState.q.split(/\s+/).filter(Boolean);
+  const inTopic = !rState.topic || rSplit(r.topics).concat(rSplit(r.industries)).includes(rState.topic);
+  return inTopic && words.every((w) => hay.includes(w));
+};
+dash.draw('r_topics', (el) => {
+  const rows = rRows(); el.replaceChildren();
+  if (!rows) return;
+  const topics = [...new Set(rows.flatMap((r) => rSplit(r.topics)))].sort();
+  const inds = [...new Set(rows.flatMap((r) => rSplit(r.industries)))].sort();
+  const lab = document.createElement('span'); lab.className = 'lbl'; lab.textContent = 'Topic'; el.appendChild(lab);
+  ['', ...topics, ...inds].forEach((t) => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'chip';
+    b.textContent = t || 'All'; b.setAttribute('aria-pressed', String(rState.topic === t));
+    b.addEventListener('click', () => { rState.topic = t; dash.draw('r_topics'); dash.draw('r_list'); dash.draw('r_count'); });
+    el.appendChild(b);
+  });
+});
+dash.draw('r_msg', (el) => { el.textContent = rState.msg || ''; });
+dash.draw('r_count', (el) => {
+  const rows = rRows();
+  if (!rows) { el.textContent = '—'; return; }
+  const n = rows.filter(rMatch).length;
+  el.textContent = n === rows.length ? `${n} findings` : `${n} of ${rows.length} findings match`;
+});
+dash.draw('r_list', (el) => {
+  const d = dash.data('research'); el.replaceChildren();
+  if (d.status !== 'ok') { const p = document.createElement('p'); p.className = 'muted'; p.textContent = d.status === 'error' ? "The research didn't load." : '—'; el.appendChild(p); return; }
+  // featured cards in their set order, then cards with a big number (the quickest to grab), then newest first
+  const rank = (r) => Number(r.featured) || 999;
+  const rows = d.data.filter(rMatch).sort((a, b) => rank(a) - rank(b) || (b.stat ? 1 : 0) - (a.stat ? 1 : 0) || (Number(b.year) || 0) - (Number(a.year) || 0) || String(a.headline || a.fact).localeCompare(String(b.headline || b.fact)));
+  if (!rows.length) {
+    const p = document.createElement('p'); p.className = 'muted';
+    p.textContent = d.data.length ? 'Nothing matches that search yet. Try another word, or pick All.' : 'No research yet. Editors can add the first fact below.';
+    el.appendChild(p); return;
+  }
+  const mk = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  // the fact without its first sentence when that sentence is the headline, so the card doesn't say it twice
+  const body = (r) => {
+    const f = String(r.fact || ''), h = String(r.headline || '').toLowerCase().replace(/[^a-z0-9 ]/g, '');
+    const first = f.split(/(?<=\.)\s+/)[0];
+    return h && first.toLowerCase().replace(/[^a-z0-9 ]/g, '').startsWith(h) && f.length > first.length ? f.slice(first.length).trim() : f;
+  };
+  rows.forEach((r) => {
+    const card = mk('article', 'rcard'); card.dataset.key = r.id;
+    if (r.stat) {
+      const st = mk('div', 'rstat'); st.appendChild(mk('span', 'num', r.stat));
+      if (r.stat_label) st.appendChild(mk('span', 'lab', r.stat_label));
+      card.appendChild(st);
+    }
+    if (r.headline) card.appendChild(mk('h3', 'rhead', r.headline));
+    card.appendChild(mk('p', 'rfact', body(r)));
+    if (r.source) { const src = mk('p', 'rsrc', 'Source: '); src.appendChild(mk('b', null, r.source)); card.appendChild(src); }
+    const tags = mk('div', 'rtags');
+    rSplit(r.topics).forEach((t) => tags.appendChild(mk('span', 'rtag', t)));
+    rSplit(r.industries).forEach((t) => tags.appendChild(mk('span', 'rtag ind', t)));
+    card.appendChild(tags);
+    const act = mk('div', 'ract'), msg = mk('span', 'msg');
+    const copyText = (text, done, fallbackEl) => {
+      const sel = () => { if (!fallbackEl) return; const rg = document.createRange(); rg.selectNodeContents(fallbackEl); const s2 = getSelection(); s2.removeAllRanges(); s2.addRange(rg); msg.textContent = 'Selected. Press Ctrl+C.'; };
+      try { navigator.clipboard.writeText(text).then(() => { msg.textContent = done; }, sel); } catch (e) { sel(); }
+    };
+    const fact = r.fact + (r.source ? ` (Source: ${r.source})` : '');
+    const copy = mk('button', 'btn', 'Copy fact'); copy.type = 'button';
+    copy.addEventListener('click', () => copyText(fact, 'Copied', card.querySelector('.rfact')));
+    act.appendChild(copy);
+    const det = mk('details'), sum = mk('summary', null, 'Read more: full citation');
+    const cite = mk('p', 'rcite', r.citation + (r.link ? ' ' + r.link : ''));
+    const cc = mk('button', 'btn ghost', 'Copy citation'); cc.type = 'button';
+    cc.addEventListener('click', () => copyText(cite.textContent, 'Citation copied', cite));
+    const crow = mk('div', 'ract'); crow.appendChild(cc);
+    if (r.link && /^https?:\/\//.test(r.link)) { const a = mk('a', null, 'Open the study'); a.href = r.link; a.target = '_blank'; a.rel = 'noopener'; crow.appendChild(a); }
+    det.appendChild(sum); det.appendChild(cite); det.appendChild(crow);
+    act.appendChild(msg); card.appendChild(act); card.appendChild(det);
+    const ed = mk('div', 'redit');
+    const eb = mk('button', 'btn ghost', 'Edit'); eb.type = 'button'; eb.addEventListener('click', () => rOpenForm(r));
+    const db_ = mk('button', 'btn danger', 'Delete'); db_.type = 'button'; db_.addEventListener('click', () => rDelete(r.id, db_));
+    ed.appendChild(eb); ed.appendChild(db_); card.appendChild(ed);
+    el.appendChild(card);
+  });
+});
+</script>
+
+<script>
+// ---- numbers in text ----
+const f1 = (v) => d3.format('.1f')(v);
+const cell = (src, field, fmt, pick) => (el) => {
+  const d = dash.data(src);
+  const r = d.status === 'ok' && d.data && d.data.length ? (pick ? pick(d.data) : d.data[0]) : null;
+  el.textContent = r && r[field] != null && r[field] !== '' ? (fmt ? fmt(eNum(r[field]) ?? r[field]) : String(r[field])) : '—';
+};
+const overall = (rows) => rows.find((r) => r.section === 'overall');
+[['o_people', 'people', eFmt], ['t_people', 'people', eFmt], ['o_eq', 'eq', f1], ['t_eq', 'eq', f1], ['t_low', 'pct_low', f1], ['t_high', 'pct_high', f1]]
+  .forEach(([n, f, fmt]) => dash.draw(n, cell('summary', f, fmt, overall)));
+[['o_rate', 'avg_pct', f1], ['t_rate', 'avg_pct', f1], ['r_rate', 'avg_pct', f1], ['t_one_in', 'one_in']].forEach(([n, f, fmt]) => dash.draw(n, cell('rate_avg', f, fmt)));
+[['t_gain', 'gain_eq', f1], ['r_gain', 'gain_eq', f1], ['f_rt_gain', 'gain_eq', f1], ['r_days', 'median_days'], ['r_higher', 'pct_higher'], ['f_rt_higher', 'pct_higher'],
+ ['r_same', 'pct_same'], ['r_lower', 'pct_lower'], ['r_57', 'pct_5to7'], ['r_year', 'pct_within_year'], ['r_moved', 'pct_moved']]
+  .forEach(([n, f, fmt]) => dash.draw(n, cell('rt_summary', f, fmt)));
+dash.draw('f_rt_low', cell('rt_by_start', 'gain', f1, (rows) => rows.find((r) => r.band === 'Below 65')));
+const text = (f) => (el) => { const d = dash.data('facts'); el.textContent = d.status === 'ok' && d.data.length ? String(d.data[0][f]) : '—'; };
+const num = (f) => (el) => { const d = dash.data('facts'); el.textContent = d.status === 'ok' && d.data.length ? f1(d.data[0][f]) : '—'; };
+['top_level', 'top_ind', 'low_ind', 'top_func', 'top_skill', 'low_skill', 'top_gen', 'top_reg', 'low_reg'].forEach((f) => dash.draw('f_' + f, text(f)));
+[['f_women', 'women_eq'], ['f_men', 'men_eq'], ['f_so_gap', 'so_gap'], ['f_sm_gap', 'sm_gap'], ['f_top_level_eq', 'top_level_eq'], ['f_ceo', 'ceo_eq'],
+ ['f_top_ind_eq', 'top_ind_eq'], ['f_low_ind_eq', 'low_ind_eq'], ['f_top_func_eq', 'top_func_eq'], ['f_sales', 'sales_eq'], ['f_big', 'big_eq'], ['f_solo', 'solo_eq'],
+ ['f_top_skill_eq', 'top_skill_eq'], ['f_low_skill_eq', 'low_skill_eq'], ['f_top_gen_eq', 'top_gen_eq'], ['f_top_reg_eq', 'top_reg_eq'], ['f_low_reg_eq', 'low_reg_eq']]
+  .forEach(([n, f]) => dash.draw(n, num(f)));
+dash.draw('f_gen_spread', text('gen_spread_ceil'));
+</script>
+
+<script>
+// ---- charts ----
+const f1 = (v) => d3.format('.1f')(v);
+window.eTip = (el) => {
+  let t = el.querySelector('.tip');
+  if (!t) { t = document.createElement('div'); t.className = 'tip'; t.hidden = true; el.appendChild(t); }
+  return {
+    show(ev, s) { t.textContent = s; t.hidden = false; const b = el.getBoundingClientRect(); t.style.left = Math.min(Math.max(0, ev.clientX - b.left + 12), Math.max(0, b.width - t.offsetWidth)) + 'px'; t.style.top = Math.max(0, ev.clientY - b.top - 34) + 'px'; },
+    hide() { t.hidden = true; }
+  };
+};
+const notOk = (el, d) => {
+  if (d.status === 'ok') return false;
+  el.replaceChildren(); const p = document.createElement('p'); p.className = 'muted';
+  p.textContent = d.status === 'error' ? "This chart didn't load." : '—'; el.appendChild(p); return true;
+};
+const svgIn = (el, H) => { el.replaceChildren(); const W = el.clientWidth || 400; return [d3.select(el).append('svg').attr('viewBox', `0 0 ${W} ${H}`).attr('height', H), W]; };
+const labelWidth = (svg, rows, label, W, frac) => {
+  const g = svg.append('g'); g.selectAll('text').data(rows).join('text').text(label);
+  const w = d3.max(g.selectAll('text').nodes(), (n) => n.getComputedTextLength()) || 100; g.remove();
+  return Math.min(W * frac, w + 14);
+};
+
+// horizontal bars with the value printed at the end, optional reference line
+const hbars = (el, rows, {label, value, fmt, color, tip, ref, domain}) => {
+  const rowH = 28, [svg, W] = svgIn(el, rows.length * rowH + 10);
+  const lw = labelWidth(svg, rows, label, W, 0.42);
+  const lo = domain ? domain[0] : 0, hi = domain ? domain[1] : (d3.max(rows, value) || 1);
+  const x = d3.scaleLinear().domain([lo, hi]).range([lw, Math.max(lw + 40, W - 52)]);
+  const tt = eTip(el);
+  svg.append('g').selectAll('text').data(rows).join('text').attr('x', 0).attr('y', (d, i) => i * rowH + 18).text(label);
+  svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', lw).attr('y', (d, i) => i * rowH + 5).attr('height', rowH - 10).attr('rx', 3)
+    .attr('width', (d) => Math.max(1, x(value(d)) - lw)).style('fill', color)
+    .on('pointermove', (ev, d) => tt.show(ev, tip(d))).on('pointerleave', () => tt.hide());
+  svg.append('g').selectAll('text').data(rows).join('text').attr('class', 'val').attr('x', (d) => Math.max(lw + 1, x(value(d))) + 6).attr('y', (d, i) => i * rowH + 18).text((d) => fmt(value(d)));
+  if (ref != null) svg.append('line').attr('x1', x(ref)).attr('x2', x(ref)).attr('y1', 0).attr('y2', rows.length * rowH + 4).style('stroke', 'var(--deep)').attr('stroke-dasharray', '4 3').attr('stroke-width', 1.5);
+};
+
+dash.draw('dist_chart', (el) => {
+  const d = dash.data('dist'), sm = dash.data('summary'); if (notOk(el, d)) return;
+  const tot = d3.sum(d.data, (r) => eNum(r.people));
+  const pts = d3.range(40, 100, 5).map((lo) => {
+    const hi = lo === 95 ? 100 : lo + 4;
+    const n = d3.sum(d.data.filter((r) => eNum(r.score) >= lo && eNum(r.score) <= hi), (r) => eNum(r.people));
+    return {lo, hi, mid: (lo + hi) / 2, pct: n / tot * 100};
+  });
+  const curve = [{mid: 40, pct: 0}, ...pts, {mid: 100, pct: 0}];
+  const avg = sm.status === 'ok' ? eNum(eRows(sm.data, 'overall')[0].eq) : null;
+  const H = 240, m = {l: 14, r: 14, t: 26, b: 28}, [svg, W] = svgIn(el, H);
+  const x = d3.scaleLinear().domain([40, 100]).range([m.l, W - m.r]);
+  const y = d3.scaleLinear().domain([0, d3.max(pts, (r) => r.pct) * 1.05]).range([H - m.b, m.t]);
+  svg.append('line').attr('class', 'gridl').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y(0)).attr('y2', y(0));
+  svg.append('g').selectAll('text').data(d3.range(40, 101, 10)).join('text').attr('x', x).attr('y', H - 8).attr('text-anchor', 'middle').text((t) => t);
+  svg.append('path').datum(curve).style('fill', 'color-mix(in srgb, var(--navy) 14%, transparent)')
+    .attr('d', d3.area().x((r) => x(r.mid)).y0(y(0)).y1((r) => y(r.pct)).curve(d3.curveBasis));
+  svg.append('path').datum(curve).style('fill', 'none').style('stroke', 'var(--navy)').attr('stroke-width', 2.5)
+    .attr('d', d3.line().x((r) => x(r.mid)).y((r) => y(r.pct)).curve(d3.curveBasis));
+  if (avg != null) {
+    svg.append('line').attr('x1', x(avg)).attr('x2', x(avg)).attr('y1', m.t - 12).attr('y2', y(0)).style('stroke', 'var(--green)').attr('stroke-dasharray', '4 3').attr('stroke-width', 2);
+    svg.append('text').attr('class', 'val').attr('x', x(avg)).attr('y', m.t - 16).attr('text-anchor', 'middle').text(`Average ${d3.format('.1f')(avg)}`);
+  }
+  const tt = eTip(el);
+  svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', W - m.l - m.r).attr('height', H - m.t - m.b).style('fill', 'transparent')
+    .on('pointermove', (ev) => {
+      const sc = x.invert(d3.pointer(ev)[0]);
+      const r = pts.find((p) => sc >= p.lo && sc < p.hi + 1) || (sc < 40 ? pts[0] : pts[pts.length - 1]);
+      tt.show(ev, `Scores ${r.lo}–${r.hi}: ${d3.format('.1f')(r.pct)}% of people`);
+    }).on('pointerleave', () => tt.hide());
+});
+
+dash.draw('group_chart', (el) => {
+  const d = dash.data('summary'); if (notOk(el, d)) return;
+  const {dim, metric, sort} = eState;
+  let rows = eRows(d.data, dim).map((r) => ({group: r.group, v: eNum(r[metric]), people: eNum(r.people)}));
+  if (sort === 'value') rows = rows.sort((a, b) => b.v - a.v);
+  const everyone = eNum(eRows(d.data, 'overall')[0][metric]);
+  const pct = metric.startsWith('pct');
+  const vals = rows.map((r) => r.v).concat(everyone);
+  const domain = pct ? [0, d3.max(vals) * 1.08] : [Math.floor(d3.min(vals) - 2), Math.ceil(d3.max(vals) + 0.5)];
+  hbars(el, rows, {label: (r) => r.group, value: (r) => r.v, fmt: (v) => d3.format('.1f')(v) + (pct ? '%' : ''), domain, ref: everyone,
+    color: (r) => (r.v >= everyone ? 'var(--green)' : 'var(--navy)'),
+    tip: (r) => `${r.group}: ${d3.format('.1f')(r.v)}${pct ? '%' : ''} (${eFmt(r.people)} people; everyone ${d3.format('.1f')(everyone)}${pct ? '%' : ''})`});
+});
+
+dash.draw('skill_chart', (el) => {
+  const d = dash.data('summary'); if (notOk(el, d)) return;
+  const rows = eRows(d.data, eState.sdim), keys = ['sa', 'sm', 'so', 'rm'].filter((k) => eState.skills[k]);
+  const rowH = 36, H = rows.length * rowH + 30, [svg, W] = svgIn(el, H);
+  const lw = labelWidth(svg, rows, (r) => r.group, W, 0.38);
+  const vals = rows.flatMap((r) => keys.map((k) => eNum(r[k])));
+  const x = d3.scaleLinear().domain([Math.floor(d3.min(vals) - 0.5), Math.ceil(d3.max(vals) + 0.5)]).range([lw, W - 16]);
+  const ticks = x.ticks(Math.max(2, Math.floor((W - lw) / 60)));
+  svg.append('g').selectAll('line').data(ticks).join('line').attr('class', 'gridl').attr('x1', x).attr('x2', x).attr('y1', 4).attr('y2', H - 24);
+  svg.append('g').selectAll('text').data(ticks).join('text').attr('x', x).attr('y', H - 6).attr('text-anchor', 'middle').text((t) => t);
+  const tt = eTip(el);
+  const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r, i) => `translate(0,${i * rowH + 20})`);
+  g.append('text').attr('x', 0).attr('y', 4).text((r) => r.group);
+  g.append('line').attr('x1', (r) => x(d3.min(keys, (k) => eNum(r[k])))).attr('x2', (r) => x(d3.max(keys, (k) => eNum(r[k])))).style('stroke', 'var(--cds-chart-grid)').attr('stroke-width', 8).attr('stroke-linecap', 'round');
+  keys.forEach((k) => {
+    g.append('circle').attr('cx', (r) => x(eNum(r[k]))).attr('r', 7).style('fill', eSkillColor[k]).style('stroke', 'var(--color-panel)').attr('stroke-width', 1.5)
+      .on('pointermove', (ev, r) => tt.show(ev, `${r.group}, ${eSkillName[k]}: ${d3.format('.1f')(eNum(r[k]))}`)).on('pointerleave', () => tt.hide());
+  });
+});
+
+dash.draw('time_chart', (el) => {
+  const d = dash.data('summary'); if (notOk(el, d)) return;
+  const rows = eRows(d.data, 'year').map((r) => ({year: r.group.slice(0, 4), label: r.group, pct_low: eNum(r.pct_low), pct_high: eNum(r.pct_high), eq: eNum(r.eq)}));
+  const keys = ['pct_low', 'pct_high'].filter((k) => eState.series[k]), color = {pct_low: 'var(--navy)', pct_high: 'var(--bright)'};
+  const H = 250, m = {l: 36, r: 46, t: 16, b: 28}, [svg, W] = svgIn(el, H);
+  const x = d3.scalePoint().domain(rows.map((r) => r.year)).range([m.l + 10, W - m.r]);
+  const y = d3.scaleLinear().domain([Math.floor(d3.min(rows, (r) => Math.min(...keys.map((k) => r[k]))) - 1), Math.ceil(d3.max(rows, (r) => Math.max(...keys.map((k) => r[k]))) + 1)]).range([H - m.b, m.t]);
+  svg.append('g').selectAll('line').data(y.ticks(5)).join('line').attr('class', 'gridl').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y);
+  svg.append('g').selectAll('text').data(y.ticks(5)).join('text').attr('x', m.l - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text((t) => t + '%');
+  svg.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => x(r.year)).attr('y', H - 8).attr('text-anchor', 'middle').text((r) => (r.year === '2026' ? '2026*' : r.year));
+  const tt = eTip(el);
+  keys.forEach((k) => {
+    svg.append('path').datum(rows).attr('d', d3.line().x((r) => x(r.year)).y((r) => y(r[k]))).style('fill', 'none').style('stroke', color[k]).attr('stroke-width', 2.5);
+    svg.append('g').selectAll('circle').data(rows).join('circle').attr('cx', (r) => x(r.year)).attr('cy', (r) => y(r[k])).attr('r', 5).style('fill', color[k])
+      .on('pointermove', (ev, r) => tt.show(ev, `${r.label}: ${d3.format('.1f')(r[k])}% ${k === 'pct_low' ? 'low' : 'high'}, average EQ ${d3.format('.1f')(r.eq)}`)).on('pointerleave', () => tt.hide());
+    const last = rows[rows.length - 1];
+    svg.append('text').attr('class', 'val').attr('x', x(last.year) + 8).attr('y', y(last[k]) + 4).text(d3.format('.1f')(last[k]) + '%');
+  });
+  svg.append('text').attr('x', W - m.r).attr('y', 10).attr('text-anchor', 'end').text('*2026 through September');
+});
+
+dash.draw('year_rows', (tb) => {
+  const d = dash.data('years'); tb.replaceChildren();
+  if (d.status !== 'ok') { const td = tb.insertRow().insertCell(); td.colSpan = 9; td.className = 'muted'; td.textContent = d.status === 'error' ? "This table didn't load." : '—'; return; }
+  d.data.forEach((r) => { const tr = tb.insertRow(); [r.group, eFmt(r.people), f1(r.eq), f1(r.sa), f1(r.sm), f1(r.so), f1(r.rm), f1(r.pct_low) + '%', f1(r.pct_high) + '%'].forEach((v) => { tr.insertCell().textContent = v; }); });
+});
+
+// ---- retest charts ----
+dash.draw('rt_skills_chart', (el) => {
+  const d = dash.data('rt_skills'); if (notOk(el, d)) return;
+  const rows = d.data, rowH = 38, H = rows.length * rowH + 28, [svg, W] = svgIn(el, H);
+  const lw = labelWidth(svg, rows, (r) => r.skill, W, 0.42);
+  const x = d3.scaleLinear().domain([Math.floor(d3.min(rows, (r) => r.first) - 1), Math.ceil(d3.max(rows, (r) => r.retest) + 1)]).range([lw, W - 42]);
+  const ticks = x.ticks(Math.max(2, Math.floor((W - lw) / 60)));
+  svg.append('g').selectAll('line').data(ticks).join('line').attr('class', 'gridl').attr('x1', x).attr('x2', x).attr('y1', 4).attr('y2', H - 22);
+  svg.append('g').selectAll('text').data(ticks).join('text').attr('x', x).attr('y', H - 6).attr('text-anchor', 'middle').text((t) => t);
+  const tt = eTip(el);
+  const g = svg.append('g').selectAll('g').data(rows).join('g').attr('transform', (r, i) => `translate(0,${i * rowH + 18})`);
+  g.append('text').attr('x', 0).attr('y', 4).text((r) => r.skill);
+  g.append('line').attr('x1', (r) => x(r.first)).attr('x2', (r) => x(r.retest)).style('stroke', 'var(--cds-chart-grid)').attr('stroke-width', 6).attr('stroke-linecap', 'round');
+  g.append('circle').attr('cx', (r) => x(r.first)).attr('r', 6).style('fill', 'var(--sky)');
+  g.append('circle').attr('cx', (r) => x(r.retest)).attr('r', 6).style('fill', 'var(--green)');
+  g.append('text').attr('class', 'val').attr('x', (r) => x(r.retest) + 10).attr('y', 4).text((r) => '+' + f1(r.gain));
+  g.append('rect').attr('x', lw).attr('y', -14).attr('width', W - lw).attr('height', 28).style('fill', 'transparent')
+    .on('pointermove', (ev, r) => tt.show(ev, `${r.skill}: ${f1(r.first)} → ${f1(r.retest)}`)).on('pointerleave', () => tt.hide());
+});
+
+dash.draw('rt_timing_chart', (el) => {
+  const d = dash.data('rt_timing'); if (notOk(el, d)) return;
+  const rows = d.data, H = 240, m = {l: 36, r: 8, t: 22, b: 40}, [svg, W] = svgIn(el, H);
+  const x = d3.scaleBand().domain(rows.map((r) => r.months)).range([m.l, W - m.r]).padding(0.16);
+  const y = d3.scaleLinear().domain([0, d3.max(rows, (r) => r.pct)]).nice().range([H - m.b, m.t]);
+  svg.append('g').selectAll('line').data(y.ticks(4)).join('line').attr('class', 'gridl').attr('x1', m.l).attr('x2', W - m.r).attr('y1', y).attr('y2', y);
+  svg.append('g').selectAll('text').data(y.ticks(4)).join('text').attr('x', m.l - 6).attr('y', (t) => y(t) + 4).attr('text-anchor', 'end').text((t) => t + '%');
+  const every = Math.ceil(rows.length / Math.max(4, Math.floor((W - m.l) / 30)));
+  svg.append('g').selectAll('text').data(rows.filter((r, i) => i % every === 0 || r.months === '24+')).join('text').attr('x', (r) => x(r.months) + x.bandwidth() / 2).attr('y', H - 22).attr('text-anchor', 'middle').text((r) => r.months);
+  svg.append('text').attr('x', (m.l + W - m.r) / 2).attr('y', H - 4).attr('text-anchor', 'middle').text('Months between first assessment and retest');
+  const tt = eTip(el);
+  svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', (r) => x(r.months)).attr('width', x.bandwidth())
+    .attr('y', (r) => y(r.pct)).attr('height', (r) => y(0) - y(r.pct)).attr('rx', 2)
+    .style('fill', (r) => (['5', '6'].includes(r.months) ? 'var(--green)' : 'var(--navy)'))
+    .on('pointermove', (ev, r) => tt.show(ev, `${r.months} months: ${f1(r.pct)}% of people`)).on('pointerleave', () => tt.hide());
+  // the percent on every bar there is room for, and always on the biggest ones
+  const roomy = x.bandwidth() >= 14;
+  svg.append('g').selectAll('text').data(rows.filter((r) => roomy || r.pct >= 2)).join('text').attr('class', 'val')
+    .attr('x', (r) => x(r.months) + x.bandwidth() / 2).attr('y', (r) => y(r.pct) - 5).attr('text-anchor', 'middle')
+    .style('font-size', x.bandwidth() >= 24 ? null : '10px').text((r) => (r.pct < 0.5 ? '<1%' : Math.round(r.pct) + '%'));
+});
+
+dash.draw('rt_rate_chart', (el) => {
+  const d = dash.data('rate'); if (notOk(el, d)) return;
+  const rows = d.data.map((r) => ({year: String(r.first_year), pct: eNum(r.pct_retested), people: eNum(r.people), retested: eNum(r.retested), full: r.complete_year === 'yes'}));
+  hbars(el, rows, {label: (r) => r.year + (r.full ? '' : ' (partial)'), value: (r) => r.pct, fmt: (v) => f1(v) + '%',
+    color: (r) => (r.full ? 'var(--navy)' : 'var(--sky)'), tip: (r) => `${r.year}: ${eFmt(r.retested)} of ${eFmt(r.people)} retested`});
+});
+dash.draw('rt_start_chart', (el) => {
+  const d = dash.data('rt_by_start'); if (notOk(el, d)) return;
+  const lo = Math.min(0, d3.min(d.data, (r) => r.gain));
+  hbars(el, d.data, {label: (r) => r.band, value: (r) => r.gain, domain: [lo, d3.max(d.data, (r) => r.gain)], fmt: (v) => (v >= 0 ? '+' : '') + f1(v),
+    color: (r) => (r.gain >= 0 ? 'var(--green)' : 'var(--sky)'), tip: (r) => `${r.band}: ${eFmt(r.people)} people, ${r.pct_higher}% scored higher`});
+});
+dash.draw('rt_gap_chart', (el) => {
+  const d = dash.data('rt_by_gap'); if (notOk(el, d)) return;
+  hbars(el, d.data, {label: (r) => r.band, value: (r) => r.gain, fmt: (v) => '+' + f1(v), color: () => 'var(--navy)', tip: (r) => `${r.band}: ${eFmt(r.people)} people, ${r.pct_higher}% scored higher`});
+});
+dash.draw('rt_beh_chart', (el) => {
+  const d = dash.data('rt_behaviors'); if (notOk(el, d)) return;
+  hbars(el, d.data, {label: (r) => r.skill, value: (r) => r.pct_moved, domain: [0, 100], fmt: (v) => v + '%',
+    color: (r) => (r.skill === 'Social Awareness' ? 'var(--sky)' : 'var(--green)'), tip: (r) => `${r.skill}: ${r.pct_moved}% moved past`});
+});
+dash.draw('rt_ind_rows', (tb) => {
+  const d = dash.data('rt_by_industry'); tb.replaceChildren();
+  if (d.status !== 'ok') { const td = tb.insertRow().insertCell(); td.colSpan = 7; td.className = 'muted'; td.textContent = d.status === 'error' ? "This table didn't load." : '—'; return; }
+  d.data.forEach((r) => {
+    const tr = tb.insertRow();
+    [r.industry, eFmt(r.people), f1(r.first), f1(r.retest), '+' + f1(r.gain), (r.adj_gain >= 0 ? '+' : '') + f1(r.adj_gain), r.pct_higher + '%'].forEach((v, i) => {
+      const td = tr.insertCell(); td.textContent = v; if (i === 5) td.className = 'up';
+    });
+  });
+});
+</script>
