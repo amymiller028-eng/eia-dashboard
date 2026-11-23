@@ -628,5 +628,50 @@
   "topics": "Training, Leadership",
   "year": null,
   "id": "manager-coaching-transfer"
+ },
+ {
+  "source": "TalentSmart (Bradberry & Greaves, 2009)",
+  "citation": "Bradberry, T., & Greaves, J. (2009). Emotional intelligence 2.0. TalentSmart.",
+  "link": "",
+  "topics": "Performance, TalentSmart research",
+  "industries": "",
+  "year": 2009,
+  "featured": null,
+  "added": "2026-11-23",
+  "id": "top-performers-90",
+  "headline": "Top performers are high in EQ",
+  "stat": "90%",
+  "stat_label": "of top performers are high in EQ",
+  "fact": "TalentSmart tested emotional intelligence alongside 33 other important workplace skills and found that 90% of top performers are high in EQ."
+ },
+ {
+  "source": "TalentSmart (Bradberry & Greaves, 2009)",
+  "citation": "Bradberry, T., & Greaves, J. (2009). Emotional intelligence 2.0. TalentSmart.",
+  "link": "",
+  "topics": "Performance, TalentSmart research",
+  "industries": "",
+  "year": 2009,
+  "featured": null,
+  "added": "2026-11-23",
+  "id": "low-performers-20",
+  "headline": "Few low performers are high in EQ",
+  "stat": "20%",
+  "stat_label": "of bottom performers are high in EQ",
+  "fact": "Just 20% of bottom performers are high in EQ. It's possible to be a top performer without high EQ, but the odds are slim."
+ },
+ {
+  "source": "TalentSmart (Bradberry & Greaves, 2009)",
+  "citation": "Bradberry, T., & Greaves, J. (2009). Emotional intelligence 2.0. TalentSmart.",
+  "link": "",
+  "topics": "Performance, TalentSmart research",
+  "industries": "",
+  "year": 2009,
+  "featured": null,
+  "added": "2026-11-23",
+  "id": "eq-58-percent",
+  "headline": "EQ drives performance in every type of job",
+  "stat": "58%",
+  "stat_label": "of performance in all types of jobs comes down to EQ",
+  "fact": "Emotional intelligence explains 58% of performance in all types of jobs, making it the strongest predictor of performance of the 34 workplace skills TalentSmart tested."
  }
 ]
