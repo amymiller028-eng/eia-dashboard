@@ -64,10 +64,9 @@ const redrawSoon = () => { if (pending) return; pending = requestAnimationFrame(
       try { (0, eval)('(function(){' + m[1] + '\n})()'); } catch (e) { fail('script', e); }
     }
     drawAll();
-    // redraw after any click or typing, so tabs, chips and search update their charts
-    root.addEventListener('click', () => setTimeout(redrawSoon, 0));
-    root.addEventListener('input', () => setTimeout(redrawSoon, 0));
-    root.addEventListener('change', () => setTimeout(redrawSoon, 0));
+    // the page redraws its own charts for chips and search; a newly opened tab needs its charts drawn.
+    // (Redrawing on every click rebuilt the research cards and closed any open citation.)
+    root.querySelectorAll('.tab').forEach((t) => t.addEventListener('click', () => setTimeout(redrawSoon, 0)));
     addEventListener('resize', redrawSoon);
   } catch (e) { fail('data', e); }
 })();
